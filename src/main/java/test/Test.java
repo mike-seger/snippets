@@ -30,15 +30,15 @@ public class Test {
    // https://docs.oracle.com/javase/10/docs/specs/serialization/protocol.html#overview
    // https://www.javaworld.com/article/2072752/the-java-serialization-algorithm-revealed.html
    private byte []  serialize(Class<? extends Serializable> clazz) throws IOException {
+      String name=clazz.getName();
       long serialVersionID=ObjectStreamClass.lookup(clazz).getSerialVersionUID();
       ByteArrayOutputStream baos=new ByteArrayOutputStream();
       DataOutputStream os=new DataOutputStream(baos);
-      String name=clazz.getName();
       os.writeLong(0xACED000573720000L | name.length());
       os.write(name.getBytes(StandardCharsets.UTF_8));
       os.writeLong(serialVersionID);
       os.writeByte(0x02);
-      os.writeInt(0x00007870);
+      os.writeInt(0x7870);
       os.flush();
       return baos.toByteArray();
    }
